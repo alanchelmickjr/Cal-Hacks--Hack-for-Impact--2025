@@ -13,31 +13,31 @@ Our focus for this 2-day hackathon is to build a proof-of-concept that recognize
 *   **Language & Voice:** Claude 4 for inference, Vapi for voice commands (TTS, calls, texts)
 *   **Core Framework:** `lerobot`
 
-## 2-Day Hackathon Plan (Submit by 4 PM Saturday)
+## 2-Day Hackathon Plan (Submit by 4 PM Sunurday)
 
 ### Day 1: Foundation & Data
 
--   [ ] **(Fri. Morning) Environment Setup:**
+-   [ ] **(Sat. Morning) Environment Setup:**
     -   [ ] Configure Raspberry Pi with all necessary dependencies.
     -   [ ] Ensure `lerobot` and Python environment is ready.
     -   [ ] Connect and verify communication with the RealSense camera.
--   [ ] **(Fri. Afternoon) Vision Pipeline:**
+-   [ ] **(Sat. Afternoon) Vision Pipeline:**
     -   [ ] Implement pose estimation to track hand and arm keypoints from the RealSense feed.
     -   [ ] Create a data logging script to capture gesture sequences.
--   [ ] **(Fri. Evening) Dataset Collection:**
+-   [ ] **(Sat. Evening) Dataset Collection:**
     -   [ ] Collect a small, focused dataset for our target ASL signs: "bring straw," "read the news," "call mom."
     -   [ ] Preprocess and label the collected data.
 
 ### Day 2: Training, Integration & Submission
 
--   [ ] **(Sat. Morning) Model Training:**
+-   [ ] **(Sun. Morning) Model Training:**
     -   [ ] Train a `smolvla`-based model on the custom gesture dataset to recognize the target signs.
     -   [ ] Test and validate model accuracy.
--   [ ] **(Sat. Midday) API Integration:**
+-   [ ] **(Sun. Midday) API Integration:**
     -   [ ] Write a script to take the model's output (recognized sign).
     -   [ ] Use Claude 4 to interpret the intent and formulate a command.
     -   [ ] Integrate with the Vapi API to execute actions (e.g., make a call, send a text, or generate a TTS response).
--   [ ] **(Sat. Afternoon) Final Touches & Submission (Deadline: 4 PM):**
+-   [ ] **(Sun. Afternoon) Final Touches & Submission (Deadline: 4 PM):**
     -   [ ] Connect the full pipeline: Camera -> Pose Estimation -> Model -> Vapi.
     -   [ ] Record a compelling demo video.
     -   [ ] Finalize this README and prepare submission package.
