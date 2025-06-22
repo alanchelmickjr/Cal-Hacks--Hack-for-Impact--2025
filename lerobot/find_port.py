@@ -24,6 +24,8 @@ python -m lerobot.find_port
 
 import platform
 import time
+import argparse
+import os
 from pathlib import Path
 
 
@@ -39,13 +41,19 @@ def find_available_ports():
     return ports
 
 
-def find_port():
-    print("Finding all available ports for the MotorsBus.")
+def find_port(set_env: str | None = None, silent: bool = False) -> str:
+    if not silent:
+        print("Finding all available ports for the MotorsBus.")
     ports_before = find_available_ports()
-    print("Ports before disconnecting:", ports_before)
+    if not silent:
+        print("Ports before disconnecting:", ports_before)
 
-    print("Remove the USB cable from your MotorsBus and press Enter when done.")
-    input()  # Wait for user to disconnect the device
+    if not silent:
+        print("Remove the USB cable from your MotorsBus and press Enter when done.")
+        input()  # Wait for user to disconnect the device
+    else:
+        # In silent mode we skip the unplug step – useful for automated scripts where only one device is present.
+        time.sleep(0.2)
 
     time.sleep(0.5)  # Allow some time for port to be released
     ports_after = find_available_ports()
@@ -53,8 +61,13 @@ def find_port():
 
     if len(ports_diff) == 1:
         port = ports_diff[0]
-        print(f"The port of this MotorsBus is '{port}'")
-        print("Reconnect the USB cable.")
+        if not silent:
+            print(f"The port of this MotorsBus is '{port}'")
+            print("Reconnect the USB cable.")
+        if set_env:
+            os.environ[set_env] = port
+            # Emit a shell-friendly export line so the user can copy-paste.
+            print(f"export {set_env}={port}")
     elif len(ports_diff) == 0:
         raise OSError(f"Could not detect the port. No difference was found ({ports_diff}).")
     else:
@@ -62,4 +75,18 @@ def find_port():
 
 
 if __name__ == "__main__":
-    find_port()
+    parser = argparse.ArgumentParser(description="Detect USB serial port of MotorsBus.")
+    parser.add_argument(
+        "--env",
+        dest="env_var",
+        metavar="ENV_VAR",
+        help="If provided, set the detected port to this environment variable and print an export line.",
+    )
+    parser.add_argument(
+        "--silent",
+        action="store_true",
+        help="Run without interactive unplug prompt (assumes only one candidate device).",
+    )
+    args = parser.parse_args()
+
+    find_port(set_env=args.env_var, silent=args.silent)
